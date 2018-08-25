@@ -1,0 +1,83 @@
+
+-----| testingSucess_WhiteSpace |-----------------------
+# pass
+
+-----| testingSuccess_Module |-----------------------
+# pass
+
+-----| testingSuccess_division |-----------------------
+# pass
+
+-----| testingSuccess_function2x |-----------------------
+# pass
+
+-----| testingSucess_Strings |-----------------------
+# pass
+
+-----| testingSucess_ExceptionHandling |-----------------------
+# pass
+
+-----| testingSucess_Lists |-----------------------
+# pass
+
+-----| testingSucess_Unpack |-----------------------
+# pass
+
+-----| testingSucess_Tuple |-----------------------
+# pass
+
+-----| testingSucess_Dictionary |-----------------------
+# pass
+
+-----| testingSuccess_Defaultdictionary |-----------------------
+# pass
+
+-----| testingSucess_Counter |-----------------------
+# pass
+
+-----| testingSuccess_Set |-----------------------
+# pass
+
+-----| testingSuccess_Loop |-----------------------
+# pass
+
+-----| testingSuccess_TrueFalse |-----------------------
+# pass
+
+-----| testingSuccess_All |-----------------------
+# pass
+
+-----| testingSuccess_Sort |-----------------------
+# pass
+
+-----| testingSuccess_ListComprehension |-----------------------
+# pass
+
+-----| testingSuccess_Generator |-----------------------
+# pass
+
+-----| testingSuccess_Random |-----------------------
+# pass
+
+-----| testingSuccess_Regex |-----------------------
+# pass
+
+-----| testingSuccess_Class |-----------------------
+# pass
+
+-----| testingSuccess_Function |-----------------------
+# pass
+
+-----| testingSuccess_Enumerate |-----------------------
+# pass
+
+-----| testingSuccess_Zip |-----------------------
+# pass
+
+-----| testingSuccess_FunctionAsParam |-----------------------
+# pass
+
+-----| testingSuccess_MultipleArgs |-----------------------
+# pass
+
+# pass= 27 fail= 0 %pass = 100%
