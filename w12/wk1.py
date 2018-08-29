@@ -4,13 +4,15 @@ from collections import defaultdict
 from collections import Counter
 import random
 
+from testingModule import O
+
 def double(x):
   return x*2    
 
 def sumAndproduct(x=0,y=0):
   return (x+y,x*y)
 
-
+"""
 class O:
   y=n=0
   @staticmethod
@@ -30,7 +32,7 @@ class O:
       O.n += 1
       print(traceback.format_exc()) 
     return f
-
+"""
 
 @O.k
 def testingSucess_WhiteSpace():
