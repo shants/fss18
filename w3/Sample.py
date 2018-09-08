@@ -12,7 +12,7 @@ class Sample:
         now = len(self.some)
         if now < self.max:
             self.sorted = False
-            self.some[len(self.some)]=x
+            self.some.append(x)
         elif random.uniform(0,1) < now / (self.n) :
             self.sorted = False
             self.some[int(random.uniform(0,1)*now)]=x
@@ -27,8 +27,16 @@ class Sample:
 
     def nth(self, n):
         s = self.sampleSorted()
-        return s[min(len(s), max(1, n)] #check this
+        return s[min(len(s), max(1, int(n*len(s))] #assuming n is < 1 ??
                 
+    def nths(self, ns):
+        if ns is None:
+            ns = [0.1,0.3,0.5,0.7,0.9]
+        out = []
+        for _,n in enumerate(ns):
+            out.append(self.nth(n))
+        
+        return out
 
 if __name__ == "__main__":
     s = Sample(10)
