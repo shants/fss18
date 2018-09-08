@@ -27,7 +27,7 @@ class Sample:
 
     def nth(self, n):
         s = self.sampleSorted()
-        return s[min(len(s), max(1, int(n*len(s))] #assuming n is < 1 ??
+        return s[min(len(s), max(1, int(n*len(s))))] #assuming n is < 1 ??
                 
     def nths(self, ns):
         if ns is None:
