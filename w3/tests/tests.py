@@ -45,19 +45,17 @@ def testing_Sym():
     #assert 1 == 1
 
 
-"""
 @O.k
 def testing_Num():
     n1 = Num()
-    n = n1.nums([ 4,10,15,38,54,57,62,83,100,100,174,190,215,225,
+    n1 = n1.nums([ 4,10,15,38,54,57,62,83,100,100,174,190,215,225,
        233,250,260,270,299,300,306,333,350,375,443,475,
        525,583,780,1000])
 
-    print(n.mu, n.sd)
-    assert(n.mu == 270.3 )
-    assert(n.sd == 231.946)
+    print(n1.mu, n1.sd)
+    assert(n1.mu == 270.3 )
+    assert(round(n1.sd,3) == 231.946)
     
-"""
 
 if __name__== "__main__":
   O.report()

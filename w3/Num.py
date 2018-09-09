@@ -1,22 +1,24 @@
-import Sample
+from Sample import Sample
 import math
 
 class Num:
-    def __init__(self):
+    def __init__(self,m=0):
         self.n = 0
         self.mu = 0
         self.m2 = 0
         self.sd = 0
         self.lo = math.pow(10,32)
         self.hi = -1 * math.pow(10,32)
-        self._some = Sample()
+        self._some = Sample(m)
         self.w = 1
 
-    def nums(self, f):
-        f = f if f else lambda x: x
-        n = Num()
-        # check, for _,x in pairs(t) do numInc(n, f(x)) end ??
-
+    def nums(self,t, f=None):
+        if  f == None:
+            f= lambda x: x
+            
+        n = Num(len(t))
+        for x in t:
+            n.numInc(f(x))
         return n
 
     def numInc(self, x):
@@ -24,9 +26,9 @@ class Num:
             return x
 
         self.n = self.n + 1
-        sampleInc(self._some, x)
+        self._some.sampleInc(x)
         d = x - self.mu
-        self.mu = self.mu + t/self.n
+        self.mu = self.mu + d/self.n
         self.m2 = self.m2 + d * (x-self.mu)
         if x > self.hi:
             self.hi = x
