@@ -1,11 +1,13 @@
 #ACK Did refer to code https://github.com/FahmidMorshed/fss18/tree/master/Week%203
 # Once or twice to get doubt cleared, did not copy 
 import testingModule
-#from .. import Sample
+
 import os,sys,inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
+
+
 from Sample import Sample
 from Sym import Sym
 from Num import Num
