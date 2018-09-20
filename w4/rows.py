@@ -8,74 +8,68 @@ class Data:
         self.syms = {}
         self.nums = {}
         self.c = None
-        self.rows = {}
+        self.rows = []
         self.name = {}
-        self._use = []
+        self._use = {}
         self.indeps = []
 
-    def indep(self, c):
+    """def indep(self, c):
         return not in self.w[c] and self.c is not c
 
-    def dep(self, c):
+           def dep(self, c):
         return not indep(c)
+    """
 
     def header(self, cells):
-        t = data()
-        #t.indeps = {}
         for c0,x in enumerate(cells):
             if not re.match("%?",x):
-                c = len(t._use)+1
-                t._use[c] = c0
-                t.name[c] = x
+                c = len(self._use)+1
+                self._use[c] = c0
+                self.name[c] = x
                 if re.match("<>%$",x): #check for pattern
-                    t.nums[c] = Num()
+                    self.nums[c] = Num()
                 else:
-                    t.syms[c] = Sym()
+                    self.syms[c] = Sym()
                 
-                if  re.match("<",x) x:
-                    t.w[c]  = -1
+                if  re.match("<",x) :
+                    self.w[c]  = -1
                 elif re.match(">",x):
-                    t.w[c]  =  1
+                    self.w[c]  =  1
                 elif re.match("!", x):
-                    t.c =  c 
+                    self.c =  c 
                 else:
-                    t.indeps.append(c)
-        return t
-
-    
+                    self.indeps.append(c)
 
 
     def row(self,cells):
         r= len(self.rows)+1
-        self.rows[r] = {}
+        l = []
         for c,c0 in enumerate(self._use):
             x = cells[c0]
-            if x != "?":
+            if not "?" in x:
                 if self.nums[c]:
-	            x = int(x)
-                    numInc(self.nums[c], x)
-                else
-	            symInc(self.syms[c], x)
-            self.rows[r][c] = x 
-        #return self
+                    x = int(x)
+                    self.nums[c].numInc(x)
+                else:
+                    self.syms[c].symInc(x)
+            l.append(x)
+            self.rows[r]= l 
 
+    def rows1(self, fname):
+        with open(fname) as stream:
+            first,lines = True, stream.readlines()
+            for line in lines: 
+                re.sub("[\t\r ]*","",line)
+                re.sub("#.*","",line)
+                cells = line.split(",")
+                if len(cells) > 0:
+                    if first:
+                        t = self.header(cells) 
+                    else: 
+                        t = self.row(cells)
+                first = False
 
-    def rows1(fname):
-        with open(fname) as stream
-
-        first,lines = true, stream.readlines()
-        for line in lines: 
-            re.sub("[\t\r ]*","",line)
-            re.sub("#.*","",line)
-            cells = line.split(",")
-            if len(cells) > 0:
-                if first then
-                    f0(cells,t) 
-                else 
-                    f(t,cells)
-            first = false
-        return t
-
-    def rows(f):
-        return rows1(f)
+    def read(self, f):
+        self.rows1(f)
+        return self
 

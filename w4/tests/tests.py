@@ -13,7 +13,17 @@ from testingModule import O
 @O.k
 def testing_Data():
     t = Data()
-    t.rows("../data/weather.csv")
+    t = t.read("../data/weather.csv")
+    s = t.syms
+    n = t.nums
+
+    for k,v in enumerate(s):
+        print(t.name[c] + " " + str(v))
+
+    for k,v in enumerate(n):
+        print(t.name[c] + " " + str(v))
+
+
 
 if __name__== "__main__":
   O.report()
