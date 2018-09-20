@@ -1,5 +1,6 @@
 from Sym import Sym
 from Num import Num
+import re
 
 class Data:
     def __init__(self):
@@ -9,35 +10,36 @@ class Data:
         self.c = None
         self.rows = {}
         self.name = {}
-        self._use = {}
+        self._use = []
+        self.indeps = []
 
     def indep(self, c):
-        #return not self.w[c] and self.c # check for t.w[c] and t.class ~= c
+        return not in self.w[c] and self.c is not c
 
     def dep(self, c):
         return not indep(c)
 
     def header(self, cells):
         t = data()
-        t.indeps = {}
+        #t.indeps = {}
         for c0,x in enumerate(cells):
-            if "%?" not in x:
+            if not re.match("%?",x):
                 c = len(t._use)+1
                 t._use[c] = c0
                 t.name[c] = x
-                if "<>%$" in x: #check for pattern
+                if re.match("<>%$",x): #check for pattern
                     t.nums[c] = Num()
                 else:
                     t.syms[c] = Sym()
                 
-                if  "<" in x:
+                if  re.match("<",x) x:
                     t.w[c]  = -1
-                elif ">" in x:
+                elif re.match(">",x):
                     t.w[c]  =  1
-                elif "!" in x:
+                elif re.match("!", x):
                     t.c =  c 
                 else:
-                    t.indeps[len(t.indeps)+1] = c
+                    t.indeps.append(c)
         return t
 
     
@@ -49,32 +51,31 @@ class Data:
         for c,c0 in enumerate(self._use):
             x = cells[c0]
             if x != "?":
-                if t.nums[c]:
-	            x = tonumber(x)
-                    numInc(t.nums[c], x)
+                if self.nums[c]:
+	            x = int(x)
+                    numInc(self.nums[c], x)
                 else
-	            symInc(t.syms[c], x)
-            t.rows[r][c] = x 
-        return t
+	            symInc(self.syms[c], x)
+            self.rows[r][c] = x 
+        #return self
 
 
-    def rows1(stream, t,f0,f):
-        first,line = true,io.read()
-        while line do
-            line= line:gsub("[\t\r ]*","")
-            :gsub("#.*","")
-            cells = split(line)
-            line = io.read()
-            if #cells > 0 then
+    def rows1(fname):
+        with open(fname) as stream
+
+        first,lines = true, stream.readlines()
+        for line in lines: 
+            re.sub("[\t\r ]*","",line)
+            re.sub("#.*","",line)
+            cells = line.split(",")
+            if len(cells) > 0:
                 if first then
                     f0(cells,t) 
                 else 
                     f(t,cells)
             first = false
-        io.close(stream)
         return t
 
-    def rows(file,t,f0,f):
-        return rows1( file and io.input(file) or io.input(),
-                t  or data(), f0 or header, f or row) 
+    def rows(f):
+        return rows1(f)
 
