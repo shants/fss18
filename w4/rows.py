@@ -60,7 +60,8 @@ class Data:
             for line in lines: 
                 re.sub("[\t\r ]*","",line)
                 re.sub("#.*","",line)
-                cells = line.strip().split(",")
+                c = line.split(",")
+                cells = [x.strip() for x in c]
                 if len(cells) > 0:
                     if first:
                         t = self.header(cells) 
