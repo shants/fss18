@@ -8,52 +8,51 @@ class Data:
         self.syms = {}
         self.nums = {}
         self.c = None
-        self.rows = []
+        self.rows = {}
         self.name = {}
         self._use = {}
         self.indeps = []
 
     """def indep(self, c):
-        return not in self.w[c] and self.c is not c
+    return not in self.w[c] and self.c is not c
 
-           def dep(self, c):
-        return not indep(c)
+        def dep(self, c):
+    return not indep(c)
     """
 
     def header(self, cells):
-        for c0,x in enumerate(cells):
-            if not re.match("%?",x):
+        for i,col in enumerate(cells):
+            if not re.match('\?', col):
                 c = len(self._use)+1
-                self._use[c] = c0
-                self.name[c] = x
-                if re.match("<>%$",x): #check for pattern
+                self._use[c] = i
+                self.name[c] = col
+                if re.match("[<>$]",col): #check for pattern
                     self.nums[c] = Num()
                 else:
                     self.syms[c] = Sym()
-                
-                if  re.match("<",x) :
+                if  re.match("<",col) :
                     self.w[c]  = -1
-                elif re.match(">",x):
+                elif re.match(">",col):
                     self.w[c]  =  1
-                elif re.match("!", x):
+                elif re.match("!", col):
                     self.c =  c 
                 else:
                     self.indeps.append(c)
 
 
     def row(self,cells):
-        r= len(self.rows)+1
-        l = []
-        for c,c0 in enumerate(self._use):
-            x = cells[c0]
+        r= len(self.rows)
+        self.rows[r] = []
+        for idx,col in enumerate(self._use):
+            x = cells[col]
             if not "?" in x:
-                if self.nums[c]:
-                    x = int(x)
-                    self.nums[c].numInc(x)
+                if self.nums.get(col) is not None:
+                    x = float(x)
+                    self.nums.get(col).numInc(x)
                 else:
-                    self.syms[c].symInc(x)
-            l.append(x)
-            self.rows[r]= l 
+                    self.syms.get(col).symInc(x)
+            #l.append(x)
+            self.rows[r].append(x)
 
     def rows1(self, fname):
         with open(fname) as stream:
