@@ -43,14 +43,14 @@ class Data:
     def row(self,cells):
         r= len(self.rows)
         self.rows[r] = []
-        for idx,col in enumerate(self._use):
+        for idx,col in self._use.items():
             x = cells[col]
             if not "?" in x:
-                if self.nums.get(col) is not None:
+                if self.nums.get(idx) is not None:
                     x = float(x)
-                    self.nums.get(col).numInc(x)
+                    self.nums.get(idx).numInc(x)
                 else:
-                    self.syms.get(col).symInc(x)
+                    self.syms.get(idx).symInc(x)
             #l.append(x)
             self.rows[r].append(x)
 
@@ -60,7 +60,7 @@ class Data:
             for line in lines: 
                 re.sub("[\t\r ]*","",line)
                 re.sub("#.*","",line)
-                cells = line.split(",")
+                cells = line.strip().split(",")
                 if len(cells) > 0:
                     if first:
                         t = self.header(cells) 
