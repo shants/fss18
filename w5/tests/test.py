@@ -7,12 +7,16 @@ from testingModule import O
 def test_weather():
     d = Dom()
     dt = Data()
-    dt = dt.read("weatherLong.csv")
+    dt = dt.read("data/weatherLong.csv")
     d2 = d.doms(dt)
     assert 1 == 1
 
 @O.k
 def test_auto():
+    d = Dom()
+    dt = Data()
+    dt = dt.read("data/auto.csv")
+    d2 = d.doms(dt)
     assert 1 == 1
 
 
