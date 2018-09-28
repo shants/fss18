@@ -1,6 +1,3 @@
-#from .testingModule import O
-from dom import Dom
-from rows import Data
 import re
 import traceback
 class O:
@@ -20,25 +17,7 @@ class O:
       O.y += 1
     except:
       O.n += 1
-      print(traceback.format_exc())
+      print(traceback.format_exc()) 
     return f
 
 
-
-
-
-@O.k
-def test_weather():
-    d = Dom()
-    dt = Data()
-    dt = dt.read("weatherLong.csv")
-    d2 = d.doms(dt)
-    assert 1 == 1
-
-@O.k
-def test_auto():
-    assert 1 == 1
-
-
-if __name__== "__main__":
-  O.report()

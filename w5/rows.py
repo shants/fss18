@@ -1,6 +1,7 @@
 from Sym import Sym
 from Num import Num
 import re
+import random
 
 class Data:
     def __init__(self):
@@ -72,4 +73,11 @@ class Data:
     def read(self, f):
         self.rows1(f)
         return self
+
+
+    def another(self, row):
+        r = random.randrange(0, len(self.rows))
+        if row == r:
+            return self.another(row)
+        return self.rows[r]
 
