@@ -1,62 +1,65 @@
 import lib_fss
 from Num import Num
+import math
 
-function unsuper(data,  enough,rows, most)
-  rows = data.rows
-  enough = (#rows)^Lean.unsuper.enough
+class Unsuper:
+    def __init__(self, data,enough=2):
+        self.rows = data.rows
+        self.enough = pow(len(self.rows),0.5)
 
-  local function band(c,lo,hi)
-    if lo==1 then
-      return "..".. rows[hi][c]
-    elseif hi == most then
-      return rows[lo][c]..".."
-    else
-      return rows[lo][c]..".."..rows[hi][c] end
-  end
+    def band(self,c,lo,hi):
+        if lo==1:
+            return ".." + str(self.rows[hi][c])
+        elif hi == most:
+            return str(self.rows[lo][c]) + ".."
+        else:
+            return str(self.rows[lo][c]) + ".." + str(self.rows[hi][c])
 
-  local function argmin(c,lo,hi,     l,r,cut,best ,tmp,x)
-    if (hi - lo > 2*enough) then
-      l,r = num(), num()
-      for i=lo,hi do numInc(r, rows[i][c]) end
-      best = r.sd
-      for i=lo,hi do
-        x = rows[i][c]
-        numInc(l, x)
-        numDec(r, x)
-        if l.n >= enough and r.n >= enough then
-          tmp = numXpect(l,r) * Lean.unsuper.margin
-          if tmp < best then
-            cut,best = i, tmp end end end end
-    return cut
-  end
+    def argmin(self, c,lo,hi):
+        if (hi - lo > 2*self.enough):
+            l,r = Num(), Num()
+            for i in range(lo,hi):
+                r.numInc(self.rows[i][c])
+            best = r.sd
+            for i in range(lo,hi):
+                x = self.rows[i][c]
+                l.numInc(x)
+                r.numDec(x)
+                if l.n >= self.enough and r.n >= self.enough:
+                    tmp = l.numXpect(l,r) * 1.05
+                if tmp < best:
+                    cut,best = i, tmp
+        return cut
 
-  local function cuts(c,lo,hi,pre,       cut,txt,b)
-    txt = pre..tostring(rows[lo][c])..".. "..tostring(rows[hi][c])
-    cut = argmin(c,lo,hi)
-    if cut then
-      fyi(txt)
-      cuts(c,lo,   cut, pre.."|.. ")
-      cuts(c,cut+1, hi, pre.."|.. ")
-    else
-      b= band(c,lo,hi)
-      fyi(txt.." ("..b..")")
-      for r=lo,hi do
-        rows[r][c]=b end end
-  end
 
-  function stop(c,t)
-    for i=#t,1,-1 do if t[i][c] ~= "?" then return i end end
-    return 0
-  end
+    def cuts(self,c,lo,hi,pre):
+        txt = pre + str(self.rows[lo][c]) + ".. " + str(self.rows[hi][c])
+        cut = self.argmin(c,lo,hi)
+        if cut:
+            fyi(txt)
+            self.cuts(c,lo,   cut, pre + "|.. ")
+            self.cuts(c,cut+1, hi, pre + "|.. ")
+        else:
+            b= self.band(c,lo,hi)
+            fyi(txt +" ("+str(b)+")")
+            for r in range(lo,hi):
+                self.rows[r][c]=b
 
-  for _,c  in pairs(data.indeps) do
-    if data.nums[c] then
-      ksort(c,rows)
-      most = stop(c,rows)
-      fyi("\n-- ".. data.name[c] .. most .. "----------")
-      cuts(c,1,most,"|.. ") end end
-  print(gsub( cat(data.name,", "), "%$",""))
-  dump(rows)
-end
+    def stop(self,c,t):
+        for i in range(len(t),1,-1):
+            if t[i][c] != "?":
+                return i
+        return 0
 
-return {main=function() return unsuper(rows()) end}
+    for _,c  in enumerate(self.data.indeps) do
+        if data.nums[c] then
+            ksort(c,rows)
+            most = stop(c,rows)
+            fyi("\n-- ".. data.name[c] .. most .. "----------")
+            cuts(c,1,most,"|.. ") end end
+            print(gsub( cat(data.name,", "), "%$",""))
+            dump(rows)
+
+
+if __name__ == "__main__":
+    unsuper(rows())
