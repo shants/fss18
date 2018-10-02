@@ -21,7 +21,7 @@ def unsuper(data):
 
 
     def band(c,lo,hi):
-        if lo==1:
+        if lo==0:
             return ".." + str(rows[hi][c])
         elif hi == most:
             return str(rows[lo][c]) + ".."
