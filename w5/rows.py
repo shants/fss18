@@ -9,7 +9,7 @@ class Data:
         self.syms = {}
         self.nums = {}
         self.c = None
-        self.rows = {}
+        self.rows = []
         self.name = {}
         self._use = {}
         self.indeps = []
@@ -43,7 +43,7 @@ class Data:
 
     def row(self,cells):
         r= len(self.rows)
-        self.rows[r] = []
+        self.rows.append([])
         for idx,col in self._use.items():
             x = cells[col]
             if not "?" in x:
@@ -53,6 +53,7 @@ class Data:
                 else:
                     self.syms.get(idx).symInc(x)
             #l.append(x)
+
             self.rows[r].append(x)
 
     def rows1(self, fname):
