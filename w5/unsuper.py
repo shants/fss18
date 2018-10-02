@@ -1,65 +1,85 @@
 import lib_fss
 from Num import Num
 import math
+#from .tests.testingModule import O
+from rows import Data
+from operator import itemgetter
 
-class Unsuper:
-    def __init__(self, data,enough=2):
-        self.rows = data.rows
-        self.enough = pow(len(self.rows),0.5)
+def dump(a, sep="\t"):
+    for i in a:
+        print(sep.join(str(b) for b in i))
 
-    def band(self,c,lo,hi):
+
+def ksort(r,k):
+     r = sorted(r, key=lambda r1:r1[k])
+     return r
+
+
+def unsuper(data):
+    rows = data.rows
+    enough = pow(len(rows),0.5)
+
+
+    def band(c,lo,hi):
         if lo==1:
-            return ".." + str(self.rows[hi][c])
+            return ".." + str(rows[hi][c])
         elif hi == most:
-            return str(self.rows[lo][c]) + ".."
+            return str(rows[lo][c]) + ".."
         else:
-            return str(self.rows[lo][c]) + ".." + str(self.rows[hi][c])
+            return str(rows[lo][c]) + ".." + str(rows[hi][c])
 
-    def argmin(self, c,lo,hi):
-        if (hi - lo > 2*self.enough):
+    def argmin(c,lo,hi):
+        cut = None
+        if (hi - lo > 2*enough):
             l,r = Num(), Num()
-            for i in range(lo,hi):
-                r.numInc(self.rows[i][c])
+            for i in range(lo,hi+1):
+                r.numInc(rows[i][c])
             best = r.sd
-            for i in range(lo,hi):
-                x = self.rows[i][c]
+            for i in range(lo,hi+1):
+                x = rows[i][c]
                 l.numInc(x)
                 r.numDec(x)
-                if l.n >= self.enough and r.n >= self.enough:
-                    tmp = l.numXpect(l,r) * 1.05
-                if tmp < best:
-                    cut,best = i, tmp
+                if l.n >= enough and r.n >= enough:
+                    tmp = l.numXpect(r) * 1.05
+                    if tmp < best:
+                        cut,best = i, tmp
         return cut
 
 
-    def cuts(self,c,lo,hi,pre):
-        txt = pre + str(self.rows[lo][c]) + ".. " + str(self.rows[hi][c])
-        cut = self.argmin(c,lo,hi)
+    def cuts(c,lo,hi,pre):
+        txt = pre + str(rows[lo][c]) + ".. " + str(rows[hi][c])
+        cut = argmin(c,lo,hi)
         if cut:
-            fyi(txt)
-            self.cuts(c,lo,   cut, pre + "|.. ")
-            self.cuts(c,cut+1, hi, pre + "|.. ")
+            print(txt)
+            cuts(c,lo,   cut, pre + "|.. ")
+            cuts(c,cut+1, hi, pre + "|.. ")
         else:
-            b= self.band(c,lo,hi)
-            fyi(txt +" ("+str(b)+")")
+            b= band(c,lo,hi)
+            print(txt +" ("+str(b)+")")
             for r in range(lo,hi):
-                self.rows[r][c]=b
+                rows[r][c]=b
 
-    def stop(self,c,t):
-        for i in range(len(t),1,-1):
+
+    def stop(c,t):
+        for i in range(len(t)-1,-1,-1):
             if t[i][c] != "?":
                 return i
         return 0
 
-    for _,c  in enumerate(self.data.indeps) do
-        if data.nums[c] then
-            ksort(c,rows)
+    for c in data.indeps:
+        if data.nums.get(c):
+            rows = ksort(rows,c)
+            print(rows)
             most = stop(c,rows)
-            fyi("\n-- ".. data.name[c] .. most .. "----------")
-            cuts(c,1,most,"|.. ") end end
-            print(gsub( cat(data.name,", "), "%$",""))
-            dump(rows)
+            print("\n-- " + data.name[c] + str(most)+ "----------")
+            cuts(c,0,most,"|.. ")
+    print(", ".join(data.name).replace("$",""))
+    dump(rows)
 
 
+#@O.k
+#def test():
 if __name__ == "__main__":
-    unsuper(rows())
+    d = Data()
+    d.rows1("data/weatherLong.csv")
+    unsuper(d)
