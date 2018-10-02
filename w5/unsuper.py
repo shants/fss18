@@ -69,7 +69,7 @@ def unsuper(data):
     for c in data.indeps:
         if data.nums.get(c):
             rows = ksort(rows,c)
-            print(rows)
+            #print(rows)
             most = stop(c,rows)
             #print("\n-- " + data.name[c] + str(most)+ "----------")
             cuts(c,0,most,"|.. ")
@@ -78,9 +78,4 @@ def unsuper(data):
     dump(rows)
 
 
-#@O.k
-#def test():
-if __name__ == "__main__":
-    d = Data()
-    d.rows1("data/weatherLong.csv")
-    unsuper(d)
+

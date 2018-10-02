@@ -25,11 +25,12 @@ class Dom:
         for r1 in range(1,len(data.rows)):
             row1 = data.rows[r1]
             row1.append(0)
-            for s in range(1,n+1):
+            for s in range(0,n):
                 row2 =data.another(r1)
                 s = self.dom(row1,row2, data) and 1/n or 0
-                row1[c-1] += + s
-            data.rows[r1]
+                k = round(s,2)
+                row1[c-1] = row1[c-1] + k
+            #data.rows[r1]
         return data
 
 
