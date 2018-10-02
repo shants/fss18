@@ -1,8 +1,8 @@
-import lib_fss
-from Num import Num
+from w5.Num import Num
 import math
 #from .tests.testingModule import O
-from rows import Data
+from w5.rows import Data
+
 from operator import itemgetter
 
 def dump(a, sep="\t"):
@@ -71,9 +71,10 @@ def unsuper(data):
             rows = ksort(rows,c)
             print(rows)
             most = stop(c,rows)
-            print("\n-- " + data.name[c] + str(most)+ "----------")
+            #print("\n-- " + data.name[c] + str(most)+ "----------")
             cuts(c,0,most,"|.. ")
-    print(", ".join(data.name).replace("$",""))
+    #print(", ".join(data.name.values()))
+    print(", ".join(data.name.values()).replace("$",""))
     dump(rows)
 
 
