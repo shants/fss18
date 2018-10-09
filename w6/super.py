@@ -2,7 +2,7 @@ from w5.Num import Num
 import math
 #from .tests.testingModule import O
 from w5.rows import Data
-
+from w5.dom import Dom
 from operator import itemgetter
 
 
@@ -15,8 +15,9 @@ def dump(a, sep="\t"):
     print(sep.join(str(b) for b in i))
 
 
-def super(data):
-
+def sup_disc(data):
+  d = Dom()
+  data = d.doms(data)
   rows   = data.rows
   goal   = len(rows[0])-1
   enough = len(rows)**.05
@@ -52,20 +53,21 @@ def super(data):
   #-- - and two for the goal column  (`yl` and `yr`)
 
   def argmin(c,lo,hi):
+      cut = None
       xl,xr = Num(), Num()
       yl,yr = Num(), Num()
-      for i in range(lo,hi+1):
+      for i in range(lo,hi):
         xr.numInc(rows[i][c])
         yr.numInc(rows[i][goal])
 
       bestx = xr.sd
       besty = yr.sd
       mu    = yr.mu
-      if (hi - lo > 2*enough):
-        for i in range(lo,hi+1):
+      if ((hi - lo) > 2*enough):
+        for i in range(lo,hi):
           x = rows[i][c]
           y = rows[i][goal]
-          xl.numInc(x); xr.numInc(x)
+          xl.numInc(x); xr.numDec(x)
           yl.numInc(y); yr.numDec(y)
           if xl.n >= enough and xr.n >= enough:
             tmpx = xl.numXpect(xr) * 1.05
@@ -101,7 +103,7 @@ def super(data):
   #-- where to stop so we don't run into those values.
 
   def stop(c,t):
-    for i in range(len(t),0,-1):
+    for i in range(len(t)-1,0,-1):
       if t[i][c] != "?":
         return i
     return 0
@@ -110,8 +112,8 @@ def super(data):
   #-- try to cut it. Then `dump` the results to standard output.
 
   for _,c in enumerate(data.indeps):
-    if data.nums[c]:
-      ksort(c,rows) #-- sorts the rows on column `c`.
+    if data.nums.get(c):
+      ksort(rows,c) #-- sorts the rows on column `c`.
       most = stop(c,rows)
       print("\n-- " + data.name[c] + " ----------")
       cuts(c,1,most,"|.. ")
