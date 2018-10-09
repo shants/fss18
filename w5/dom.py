@@ -20,17 +20,18 @@ class Dom:
     #@staticmethod
     def doms(self,data : Data):
         n= 100
-        c= len(data.name)+1
+        c= len(data.name)
         data.name[c] = ">dom"
-        for r1 in range(1,len(data.rows)):
+        for r1 in range(0,len(data.rows)):
             row1 = data.rows[r1]
             row1.append(0)
             for s in range(0,n):
                 row2 =data.another(r1)
                 s = self.dom(row1,row2, data) and 1/n or 0
-                k = round(s,2)
-                row1[c-1] = row1[c-1] + k
-            #data.rows[r1]
+                #k = round(s,2)
+                row1[c] = row1[c] + s
+            data.rows[r1]=row1
+            data.rows[r1][-1]=round(data.rows[r1][-1], 2)
         return data
 
 
