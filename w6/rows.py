@@ -1,84 +1,101 @@
-from Sym import Sym
 from Num import Num
-import re
-import random
-
-class Data:
-    def __init__(self):
-        self.w = {}
-        self.syms = {}
-        self.nums = {}
-        self.c = None
-        self.rows = []
-        self.name = {}
-        self._use = {}
-        self.indeps = []
-
-    """def indep(self, c):
-    return not in self.w[c] and self.c is not c
-
-        def dep(self, c):
-    return not indep(c)
-    """
-
-    def header(self, cells):
-        for i,col in enumerate(cells):
-            if not re.match('\?', col):
-                c = len(self._use)+1
-                self._use[c] = i
-                self.name[c] = col
-                if re.match("[<>$]",col): #check for pattern
-                    self.nums[c] = Num()
-                else:
-                    self.syms[c] = Sym()
-                if  re.match("<",col) :
-                    self.w[c]  = -1
-                elif re.match(">",col):
-                    self.w[c]  =  1
-                elif re.match("!", col):
-                    self.c =  c 
-                else:
-                    self.indeps.append(c)
+from Sym import Sym
+from testingModule import O
+import re, sys
 
 
-    def row(self,cells):
-        r= len(self.rows)
-        self.rows.append([])
-        for idx,col in self._use.items():
-            x = cells[col]
-            if not "?" in x:
-                if self.nums.get(idx) is not None:
-                    x = float(x)
-                    self.nums.get(idx).numInc(x)
-                else:
-                    self.syms.get(idx).symInc(x)
-            #l.append(x)
+class Rows:
 
-            self.rows[r].append(x)
+  def __init__(self):
+    self.w = {}
+    self.syms = {}
+    self.nums = {}
+    self._class = None
+    self.rows = []
+    self.name = []
+    self._use = []
+    self.indeps = []
 
-    def rows1(self, fname):
-        with open(fname) as stream:
-            first,lines = True, stream.readlines()
-            for line in lines: 
-                re.sub("[\t\r ]*","",line)
-                re.sub("#.*","",line)
-                c = line.split(",")
-                cells = [x.strip() for x in c]
-                if len(cells) > 0:
-                    if first:
-                        t = self.header(cells) 
-                    else: 
-                        t = self.row(cells)
-                first = False
+  def indep(self, c):
+    return not c in self.w and self._class != c
 
-    def read(self, f):
-        self.rows1(f)
-        return self
+  def dep(self, c):
+    return not self.indep(c)
+
+  def header(self, cells):
+    # self = self or Rows()
+    # self.indep = []
+    for c0, x in enumerate(cells):
+      if not "?" in x:
+        c = len(self._use)
+        self._use.append(c0)
+        self.name.append(x)
+
+        if "$" in x or "<" in x or ">" in x:
+          self.nums[c] = Num([])
+        else:
+          self.syms[c] = Sym([])
+
+        if "<" in x:
+          self.w[c] = -1
+        elif ">" in x:
+          self.w[c] = 1
+        elif "!" in x:
+          self._class = c
+        else:
+          self.indeps.append(c)
+    return self
+
+  '''
+    Processing each row and 
+    deciding when to skip a value
+    '''
+
+  def row(self, cells):
+    r = len(self.rows)
+    self.rows.append([])
+    for c, c0 in enumerate(self._use):
+      x = cells[c0]
+      if x != "?":
+        if c in self.nums:
+          x = round(float(x), 2)
+          self.nums[c].numInc(x)
+        else:
+          self.syms[c].symInc(x)
+      self.rows[r].append(x)
+    return self
 
 
-    def another(self, row):
-        r = random.randrange(0, len(self.rows))
-        if row == r:
-            return self.another(row)
-        return self.rows[r]
+def splitLines(text=None):
+  # check if the file has .csv extension
+  if text[-3:] in ["csv", ".dat"]:
+    with open(text) as file:
+      for line in file:
+        yield line
+  # reading input stream data if no file is passed
+  elif text == None:
+    for line in sys.stdin:
+      yield line
+  else:
+    for line in text.splitlines():
+      yield line
 
+
+def rows1(stream):
+  # Creating an object of type Rows()
+  line = Rows()
+  first = True
+  for line1 in stream:
+    line1 = re.sub(r'([\n\r\t]|#.*)', "", line1)
+    cells = line1.split(",")
+    if len(cells) > 0 and cells[0] != "":
+      if first:
+        line.header(cells)
+      else:
+        line.row(cells)
+      first = False
+  return line
+
+
+def rows(src):
+  return rows1(splitLines(src))
