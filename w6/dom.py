@@ -2,7 +2,7 @@ import re, sys, random, math
 from Num import Num
 from Sym import Sym
 from rows import Rows, rows
-from test import O
+from testingModule import O
 
 
 def another(r, rows):
