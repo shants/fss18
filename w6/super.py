@@ -1,3 +1,6 @@
+#looked into code from https://github.com/akshaynalwaya/CSC-591-Foundations-of-Software-Science/blob/master/w6/super.py
+# for reference
+
 from testingModule import O
 from Num import Num
 from Sym import Sym
